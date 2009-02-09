@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "longurl"
+
+def usage
+  puts "Usage: #$0 <url>"
+  exit(-1)
+end
+
+if ARGV.size < 1
+  usage
+end
+
+puts LongURL.expand(ARGV[0])
