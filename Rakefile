@@ -1,35 +1,47 @@
-require "rake"
-require "rake/rdoctask"
-require "rake/testtask"
+require 'rake'
 
-task :default => [ :test, :doc ]
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name              = "longurl"
+    s.summary           = %q{LongURL expands shorten urls (tinyurl, is.gd, ...)}
+    s.homepage          = "http://longurl.rubyforge.org"
+    s.description       = %q{LongURL expands short urls (tinyurl, is.gd, ...) to original ones, using on LongURL.org, internal resolution or direct resolution}
+    s.authors           = ["Fabien Jakimowicz"]
+    s.email             = "fabien@jakimowicz.com"
+    s.rubyforge_project = 'longurl'
 
-desc "Run the tests"
-Rake::TestTask.new("test") { |t|
-  t.pattern = "test/**/test_*.rb"
-  t.verbose = true
-}
-
-desc "Write the documentation"
-Rake::RDocTask.new("doc") { |rdoc|
-  rdoc.rdoc_dir = "doc"
-  rdoc.title = "LongURL Documentation"
-  rdoc.rdoc_files.include("README")
-  rdoc.rdoc_files.include("TODO")
-  rdoc.rdoc_files.include("LICENSE")
-  rdoc.rdoc_files.include("ChangeLog")
-  rdoc.rdoc_files.include("lib/*.rb")
-  rdoc.rdoc_files.include("lib/**/*.rb")
-  rdoc.rdoc_files.exclude("test/*")
-}
-
-desc "Statistics for the code"
-task :stats do
-  begin
-    require "code_statistics"
-    CodeStatistics.new(["Code", "lib"],
-                       ["Units", "test"]).to_s
-  rescue LoadError
-    puts "Couldn't load code_statistics (install rails)"
+    s.add_dependency 'json'
   end
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = 'longurl'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib' << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = false
+end
+
+begin
+  require 'rcov/rcovtask'
+  Rcov::RcovTask.new do |t|
+    t.libs << 'test'
+    t.test_files = FileList['test/**/*_test.rb']
+    t.verbose = true
+  end
+rescue LoadError
+  puts "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+end
+
+task :default => :test

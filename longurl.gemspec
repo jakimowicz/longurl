@@ -1,32 +1,35 @@
-require "rubygems"
+# -*- encoding: utf-8 -*-
 
-SPEC = Gem::Specification.new do |s|
-  s.name                = "longurl"
-  s.version             = "0.1"
-  s.summary             = %q{LongURL expands shorten urls}
-  s.description         = %q{LongURL expands short urls (tinyurl, ...) to original ones, using on LongURL.org, internal resolution or direct resolution}
+Gem::Specification.new do |s|
+  s.name = %q{longurl}
+  s.version = "0.0.0"
 
-  s.author              = "Fabien Jakimowicz"
-  s.email               = "fabien@jakimowicz.com"
-  s.homepage            = "http://longurl.rubyforge.org"
-  s.rubyforge_project   = "longurl"
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.authors = ["Fabien Jakimowicz"]
+  s.date = %q{2009-02-10}
+  s.default_executable = %q{longurl}
+  s.description = %q{LongURL expands short urls (tinyurl, is.gd, ...) to original ones, using on LongURL.org, internal resolution or direct resolution}
+  s.email = %q{fabien@jakimowicz.com}
+  s.executables = ["longurl"]
+  s.files = ["VERSION.yml", "bin/longurl", "lib/longurl", "lib/longurl/constants.rb", "lib/longurl/direct.rb", "lib/longurl/exceptions.rb", "lib/longurl/service.rb", "lib/longurl.rb", "test/test_service.rb"]
+  s.has_rdoc = true
+  s.homepage = %q{http://longurl.rubyforge.org}
+  s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
+  s.require_paths = ["lib"]
+  s.rubyforge_project = %q{longurl}
+  s.rubygems_version = %q{1.3.1}
+  s.summary = %q{LongURL expands shorten urls (tinyurl, is.gd, ...)}
 
-  s.platform            = Gem::Platform::RUBY
-  s.files               = %w( README ) + Dir["{bin,lib,test,examples}/**/*"]
-  s.require_path        = "lib"
-  s.test_files          = ['test/test_service.rb']
-  s.autorequire         = 'longurl'
-  s.default_executable  = "longurl"
-  s.executables         = ["longurl"]
-  s.has_rdoc            = true
-  s.extra_rdoc_files    = ["README", "TODO", "LICENSE", "ChangeLog"]
-  s.rdoc_options        = [
-                            "--title", "LongURL Documentation",
-                            "--main", "README",
-                            "-S",
-                            "-N",
-                            "--all"
-                          ]
+  if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+    s.specification_version = 2
 
-  s.add_dependency "json"
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<json>, [">= 0"])
+    else
+      s.add_dependency(%q<json>, [">= 0"])
+    end
+  else
+    s.add_dependency(%q<json>, [">= 0"])
+  end
 end
