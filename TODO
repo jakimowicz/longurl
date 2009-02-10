@@ -1,5 +1,5 @@
 * add a cache to avoid multiple calls for same url
 * handle http errors
-* re-use http connection to longurl.org
 * handle json parsing errors
 * handle ServiceUnknown exception
+* possible infinite loop in Direct::follow_redirections

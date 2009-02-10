@@ -5,6 +5,7 @@
 require 'longurl/constants'
 require 'longurl/exceptions'
 require 'longurl/service'
+require 'longurl/direct'
 
 module LongURL
   
@@ -12,6 +13,8 @@ module LongURL
     def expand(url)
       @@service ||= Service.new
       @@service.query(url)
+    rescue UnsupportedService
+      Direct.follow_redirections url
     end
   end
   
