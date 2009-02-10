@@ -1,5 +1,6 @@
 require "net/http"
 require "cgi"
+require "uri"
 require "rubygems"
 require "json"
 require "longurl/constants"
@@ -8,19 +9,45 @@ require "longurl/exceptions"
 module LongURL
 
   class Service
+    
+    def initialize
+      @@supported_services = fetch_supported_services
+    end
+    
+    def query_supported_service_only(url)
+      check url
+      raise LongURL::UnsupportedService unless service_supported?(url)
+      query url
+    end
 
     def query(url)
-      escaped_url = check_and_escape_url(url)
+      escaped_url = check_and_escape(url)
       Net::HTTP.start(EndPoint.host, EndPoint.port) do |http|
         handle_response http.get("#{EndPoint.path}?format=json&url=#{escaped_url}")
       end
     end
         
+    def service_supported?(url)
+      @@supported_services.include? URI.parse(url).host.downcase
+    end
+    
+    def check(url)
+      raise LongURL::InvalidURL if url.nil? or url.empty?
+    end
+
     protected
     
-    def check_and_escape_url(url)
-      raise LongURL::InvalidURL if url.nil? or url.empty?
+    def check_and_escape(url)
+      check url
       CGI.escape url
+    end
+    
+    def fetch_supported_services
+      Net::HTTP.start(ServiceEndPoint.host, ServiceEndPoint.port) do |http|
+        response = http.get("#{ServiceEndPoint.path}?format=json")
+        parsed = JSON.parse(response.body)
+        parsed.values.flatten
+      end
     end
     
     def handle_response(response)
