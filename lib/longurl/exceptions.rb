@@ -4,4 +4,7 @@ module LongURL
 
   class UnknownError < Exception
   end
+  
+  class InvalidURL < Exception
+  end
 end
