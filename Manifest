@@ -1,0 +1,13 @@
+bin/longurl
+ChangeLog
+lib/longurl/constants.rb
+lib/longurl/direct.rb
+lib/longurl/exceptions.rb
+lib/longurl/service.rb
+lib/longurl.rb
+LICENSE
+longurl.gemspec
+Manifest
+Rakefile
+README
+TODO
