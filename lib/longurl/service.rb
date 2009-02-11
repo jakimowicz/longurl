@@ -10,14 +10,21 @@ module LongURL
 
   class Service
     
-    def initialize
-      @@supported_services = fetch_supported_services
+    def initialize(params = {})
+      @@cache = params[:cache]
+
+      @@supported_services = @@cache.get('supported_services')
+      @@supported_services ||= @@cache.set('supported_services', fetch_supported_services)
     end
     
     def query_supported_service_only(url)
       check url
       raise LongURL::UnsupportedService unless service_supported?(url)
-      query url
+      cached_query url
+    end
+    
+    def cached_query(url)
+      @@cache.get(url) || @@cache.set(url, query(url))
     end
 
     def query(url)
