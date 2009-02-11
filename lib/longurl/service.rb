@@ -32,6 +32,8 @@ module LongURL
       Net::HTTP.start(EndPoint.host, EndPoint.port) do |http|
         handle_response http.get("#{EndPoint.path}?format=json&url=#{escaped_url}")
       end
+    rescue Timeout::Error, Errno::ENETUNREACH
+      raise LongURL::NetworkError
     end
         
     def service_supported?(url)
@@ -55,6 +57,8 @@ module LongURL
         parsed = JSON.parse(response.body)
         parsed.values.flatten
       end
+    rescue Timeout::Error, Errno::ENETUNREACH
+      raise LongURL::NetworkError
     end
     
     def handle_response(response)
