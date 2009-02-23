@@ -1,7 +1,3 @@
-# tc_service.rb
-#
-#   Created by Vincent Foley on 2005-06-01
-
 $test_lib_dir = File.join(File.dirname(__FILE__), "..", "lib")
 $:.unshift($test_lib_dir)
 
