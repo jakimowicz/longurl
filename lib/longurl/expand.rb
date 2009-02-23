@@ -20,6 +20,7 @@ module LongURL
     #
     # === Exceptions
     # * LongURL::InvalidURL : will occurs if given url is nil, empty or invalid
+    # * LongURL::NetworkError : a network (timeout, host could be reached, ...) error occurs
     # * LongURL::UnknownError : an unknown error occurs
     def expand(url, options = {})
       @@expander ||= Expander.new(:cache => options[:cache])

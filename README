@@ -5,8 +5,7 @@ First, expand will try to expand url using longurl.org service.
 Then, it will try to direct follow redirections on the given url and returns final one.
 
 === Options
-* <tt>:try_unsupported</tt> : use longurl.org to resolve the address, even if it is not a supported service
-* <tt>:direct_resolution</tt> : fetch url and follow redirection to find the final destination
+* <tt>:cache</tt> : cache object to use, must implement [] and []= functions.
 
 === Types
 <tt>url</tt> is expected to be a String and returns a String with the url.
@@ -20,15 +19,22 @@ Then, it will try to direct follow redirections on the given url and returns fin
   # not expandable urls, without any http call
   LongURL.expand("http://www.linuxfr.org")                              # => "http://www.linuxfr.org"
 
-  # not expandable urls, calling longurl.org only
-  LongURL.expand("http://www.linuxfr.org", :try_unsupported => true)    # => "http://www.linuxfr.org/pub"
-
+	# Use MemCache
+	LongURL.expand("http://is.gd/iUKg", :cache => MemCache.new("localhost:11211", :namespace => "LongURL"))
+																																				# => "http://fabien.jakimowicz.com"
+																																				
+	# Expander class
+	expander = LongURL::Expander.new
+	expander.expand("http://tinyurl.com/1c2")                             # => "http://www.google.com"
   # not expandable urls, direct resolution only
-  LongURL.expand("http://www.linuxfr.org", :direct_resolution => true)  # => "http://www.linuxfr.org/pub"
+  expander.direct_resolution("http://www.linuxfr.org")                  # => "http://www.linuxfr.org/pub"
+  # not expandable urls, calling longurl.org only
+  expander.expand_with_service_only("http://www.linuxfr.org")           # => "http://www.linuxfr.org/pub"
+	# ... with MemCache
+	expander = LongURL::Expander.new(:cache => MemCache.new("localhost:11211", :namespace => "LongURL"))
+	expander.expand("http://tinyurl.com/1c2")                             # => "http://www.google.com"
 
-  # not expandable urls, longurl.org and direct resolution
-  LongURL.expand("http://www.linuxfr.org",
-                 :try_unsupported => true, :direct_resolution => true)  # => "http://www.linuxfr.org/pub"
 === Exceptions
 * LongURL::InvalidURL : will occurs if given url is nil, empty or invalid
+* LongURL::NetworkError : a network (timeout, host could be reached, ...) error occurs
 * LongURL::UnknownError : an unknown error occurs

@@ -25,6 +25,7 @@ module LongURL
   #   e.expand("http://is.gd/iUKg")                                   # => "http://fabien.jakimowicz.com"
   # === Exceptions
   # * LongURL::InvalidURL : will occurs if given url is nil, empty or invalid
+  # * LongURL::NetworkError : a network (timeout, host could be reached, ...) error occurs
   # * LongURL::UnknownError : an unknown error occurs
   class Expander
     # Initialize a new Expander.
