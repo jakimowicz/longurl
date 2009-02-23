@@ -10,6 +10,8 @@ module LongURL
         dest = answer['Location']
         (dest && dest[0, 7] == 'http://' && follow_redirections(dest)) || orig
       end
+    rescue Timeout::Error, Errno::ENETUNREACH, Errno::ETIMEDOUT, SocketError
+      raise LongURL::NetworkError
     end
   end
 end
