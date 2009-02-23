@@ -11,10 +11,8 @@ module LongURL
   class Service
     
     def initialize(params = {})
-      @@cache = params[:cache]
-
-      @@supported_services = @@cache.get('supported_services')
-      @@supported_services ||= @@cache.set('supported_services', fetch_supported_services)
+      @@cache = params[:cache] || Hash.new
+      @@supported_services = cached_or_fetch_supported_services
     end
     
     def query_supported_service_only(url)
@@ -45,6 +43,10 @@ module LongURL
     end
 
     protected
+    
+    def cached_or_fetch_supported_services
+      @@cache['supported_services'] ||= fetch_supported_services
+    end
     
     def check_and_escape(url)
       check url

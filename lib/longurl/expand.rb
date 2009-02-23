@@ -6,7 +6,7 @@ module LongURL
     # First, expand will try to expand url using longurl.org service.
     # Then, it will try to direct follow redirections on the given url and returns final one.
     # === Options
-    # * <tt>:cache</tt> : cache object to use, must implement get and set functions. See LongURL::Cache.
+    # * <tt>:cache</tt> : cache object to use, must implement [] and []= functions.
     # === Types
     # <tt>url</tt> is expected to be a String and returns a String with the url.
     # === Examples
