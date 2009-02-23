@@ -2,16 +2,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{longurl}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Fabien Jakimowicz"]
-  s.date = %q{2009-02-10}
+  s.date = %q{2009-02-23}
   s.default_executable = %q{longurl}
   s.description = %q{LongURL expands short urls (tinyurl, is.gd, ...) to original ones, using on LongURL.org, internal resolution or direct resolution}
   s.email = %q{fabien@jakimowicz.com}
   s.executables = ["longurl"]
-  s.files = ["VERSION.yml", "bin/longurl", "lib/longurl", "lib/longurl/constants.rb", "lib/longurl/direct.rb", "lib/longurl/exceptions.rb", "lib/longurl/service.rb", "lib/longurl.rb", "test/service_test.rb"]
+  s.files = ["VERSION.yml", "bin/longurl", "lib/longurl", "lib/longurl/cache.rb", "lib/longurl/constants.rb", "lib/longurl/direct.rb", "lib/longurl/exceptions.rb", "lib/longurl/expand.rb", "lib/longurl/expander.rb", "lib/longurl/service.rb", "lib/longurl.rb", "test/service_test.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://longurl.rubyforge.org}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
