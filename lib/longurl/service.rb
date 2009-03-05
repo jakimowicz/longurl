@@ -22,7 +22,7 @@ module LongURL
     end
     
     def cached_query(url)
-      @@cache.get(url) || @@cache.set(url, query(url))
+      @@cache[url] ||= query(url)
     end
 
     def query(url)
