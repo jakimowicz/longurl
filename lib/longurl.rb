@@ -4,6 +4,7 @@
 
 require 'longurl/constants'
 require 'longurl/exceptions'
+require 'longurl/url'
 require 'longurl/service'
 require 'longurl/direct'
 require 'longurl/expander'

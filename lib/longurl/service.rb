@@ -38,14 +38,14 @@ module LongURL
       @@supported_services.include? URI.parse(url).host.downcase
     end
     
-    def check(url)
-      raise LongURL::InvalidURL if url.nil? or url.empty?
-    end
-
     protected
     
     def cached_or_fetch_supported_services
       @@cache['supported_services'] ||= fetch_supported_services
+    end
+    
+    def check(url)
+      LongURL::URL.check url
     end
     
     def check_and_escape(url)
