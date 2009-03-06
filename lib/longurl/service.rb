@@ -34,25 +34,34 @@ module LongURL
       raise LongURL::NetworkError
     end
         
+    # Check among supported services by longurl.org if given <tt>url</tt> is supported.
+    # Returns true if supported, false otherwise.
     def service_supported?(url)
       @@supported_services.include? URI.parse(url).host.downcase
     end
     
     protected
     
+    # Returns a list of supported services.
+    # Use cache to get the list or fetch it if cache is empty.
     def cached_or_fetch_supported_services
       @@cache['supported_services'] ||= fetch_supported_services
     end
     
+    # Check given <tt>url</tt> using LongURL::URL.check
     def check(url)
       LongURL::URL.check url
     end
     
+    # Check given url and escape it for http query argument passing.
     def check_and_escape(url)
       check url
       CGI.escape url
     end
     
+    # Fetch supported services from longurl.org api.
+    # Returns supported services in an Array.
+    # Raises LongURL::NetworkError in case of a network error (timeout, ...)
     def fetch_supported_services
       Net::HTTP.start(ServiceEndPoint.host, ServiceEndPoint.port) do |http|
         response = http.get("#{ServiceEndPoint.path}?format=json")

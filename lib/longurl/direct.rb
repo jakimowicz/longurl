@@ -2,6 +2,10 @@ require "net/http"
 
 module LongURL
   module Direct
+    # Will follow redirections given url <tt>orig</tt>.
+    # === Exceptions
+    # * LongURL::NetworkError in case of a network error (timeout, socket error, ...)
+    # * LongURL::InvalidURL in case of a bad url (nil, empty, not http scheme ...)
     def self.follow_redirections(orig)
       uri = LongURL::URL.check(orig)
       Net::HTTP.start(uri.host, uri.port) do |http|
