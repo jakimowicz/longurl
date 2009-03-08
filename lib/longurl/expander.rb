@@ -30,9 +30,17 @@ module LongURL
   class Expander
     # Initialize a new Expander.
     # === Options
-    # * <tt>:cache</tt>: define a cache which Expander can use. It must implements [] and []= methods.
+    # * <tt>:cache</tt>: define a cache which Expander can use.
+    #   It must implements [] and []= methods. It can be disabled using false.
     def initialize(options = {})
-      @@cache = options[:cache] || Hash.new
+      # OPTIMIZE : This code is a complete duplicate of cache handling in service.
+      if options[:cache].nil?
+        @@cache = Hash.new
+      elsif options[:cache] == false
+        @@cache = nil
+      else
+        @@cache = options[:cache]
+      end
       @@service = Service.new(:cache => @@cache)
     end
     
@@ -46,7 +54,12 @@ module LongURL
     # Try to directly resolve url using LongURL::Direct to get final redirection.
     # This call is cached.
     def direct_resolution(url)
-      @@cache[url] ||= Direct.follow_redirections(url)
+      # OPTIMIZE : this code is almost identical as the one in service for handling service retrieval.
+      if @@cache
+        @@cache[url] ||= Direct.follow_redirections(url)
+      else
+        Direct.follow_redirections(url)
+      end
     end
     
     # Expand given url using LongURL::Service only. If given url is not a expandable url, it will still be given to Service.

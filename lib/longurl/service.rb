@@ -11,14 +11,20 @@ module LongURL
   class Service
     
     def initialize(params = {})
-      @@cache = params[:cache] || Hash.new
+      if params[:cache].nil?
+        @@cache = Hash.new
+      elsif params[:cache] == false
+        @@cache = nil
+      else
+        @@cache = params[:cache]
+      end
       @@supported_services = cached_or_fetch_supported_services
     end
     
     def query_supported_service_only(url)
       check url
       raise LongURL::UnsupportedService unless service_supported?(url)
-      cached_query url
+      (@@cache && cached_query(url)) || query(url)
     end
     
     def cached_query(url)
@@ -45,7 +51,11 @@ module LongURL
     # Returns a list of supported services.
     # Use cache to get the list or fetch it if cache is empty.
     def cached_or_fetch_supported_services
-      @@cache['supported_services'] ||= fetch_supported_services
+      if @@cache
+        @@cache['supported_services'] ||= fetch_supported_services
+      else
+        fetch_supported_services
+      end
     end
     
     # Check given <tt>url</tt> using LongURL::URL.check
