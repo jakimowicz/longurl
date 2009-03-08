@@ -1,4 +1,5 @@
 require 'uri'
+require "longurl/exceptions"
 
 module LongURL
   module URL

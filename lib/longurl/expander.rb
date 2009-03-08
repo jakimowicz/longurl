@@ -1,3 +1,7 @@
+require "longurl/exceptions"
+require "longurl/service"
+require "longurl/direct"
+
 module LongURL
   
   # == URL Expander class.

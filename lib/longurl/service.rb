@@ -5,6 +5,7 @@ require "rubygems"
 require "json"
 require "longurl/constants"
 require "longurl/exceptions"
+require "longurl/url"
 
 module LongURL
 

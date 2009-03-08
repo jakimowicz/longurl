@@ -1,3 +1,5 @@
+require 'longurl/expander'
+
 module LongURL
   
   class << self

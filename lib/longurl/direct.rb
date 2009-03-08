@@ -1,4 +1,6 @@
 require "net/http"
+require "longurl/url"
+require "longurl/exceptions"
 
 module LongURL
   module Direct
