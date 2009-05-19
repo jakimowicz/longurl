@@ -17,9 +17,10 @@ class TestURL < Test::Unit::TestCase
                  "bleh://asfd.com",
                  "ftp://asdf.com",
                  "google.com",
-                 "asdf@toto.com"]
+                 "asdf@toto.com",
+                 "httpd://asdf.com"]
                  
-  GoodURL = "http://www.google.com"
+  GoodURLs = ["http://www.google.com", "https://rubyonrails.org"]
 
   def test_check_should_raise_invalid_url_if_url_is_nil
     assert_raise(LongURL::InvalidURL) { LongURL::URL.check nil }
@@ -38,6 +39,6 @@ class TestURL < Test::Unit::TestCase
   end
   
   def test_check_should_returns_parsed_url_on_success
-    assert_equal URI.parse(GoodURL), LongURL::URL.check(GoodURL)
+    GoodURLs.each {|good_url| assert_equal URI.parse(good_url), LongURL::URL.check(good_url)}
   end
 end
