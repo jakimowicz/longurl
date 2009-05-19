@@ -14,4 +14,8 @@ module LongURL
   # Raised if a network error occurs : timeout, unreachable network, ...
   class NetworkError < StandardError
   end
+  
+  # Raised if there are too many redirection in a direct resolution.
+  class TooManyRedirections < StandardError
+  end
 end
