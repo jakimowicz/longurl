@@ -1,7 +1,7 @@
 require "uri"
 
 module LongURL
-  ShortURLMatchRegexp = /http:\/\/[\/-_.a-z0-9]+/im
+  ShortURLMatchRegexp = /http:\/\/[\/\-_.a-z0-9]+/im
 
   # Urls for longurl
   EndPoint        = URI.parse("http://api.longurl.org/v1/expand")

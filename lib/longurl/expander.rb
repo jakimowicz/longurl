@@ -66,6 +66,21 @@ module LongURL
       end
     end
     
+    # Expand all url in the given string, if an error occurs while expanding url, then the original url is used
+    def expand_each_in(text)
+      text.gsub(ShortURLMatchRegexp) do |shorturl| 
+        begin
+          expand shorturl
+        rescue  LongURL::InvalidURL,
+                LongURL::NetworkError,
+                LongURL::TooManyRedirections,
+                LongURL::UnknownError,
+                JSON::ParserError
+          shorturl
+        end
+      end
+    end
+    
     # Expand given url using LongURL::Service only. If given url is not a expandable url, it will still be given to Service.
     def expand_with_service_only(url)
       @@service.query url
