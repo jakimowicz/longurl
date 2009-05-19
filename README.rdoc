@@ -1,9 +1,11 @@
-== LongURL
+= LongURL
 
+== DESCRIPTION
 LongURL expands short urls (tinyurl, is.gd, ...) to original ones, using on LongURL.org, internal resolution or direct resolution
 First, expand will try to expand url using longurl.org service.
 Then, it will try to direct follow redirections on the given url and returns final one.
 
+== SYNOPSIS
 === Options
 * <tt>:cache</tt> : cache object to use, must implement [] and []= functions.
 
@@ -38,3 +40,34 @@ Then, it will try to direct follow redirections on the given url and returns fin
 * LongURL::InvalidURL : will occurs if given url is nil, empty or invalid
 * LongURL::NetworkError : a network (timeout, host could be reached, ...) error occurs
 * LongURL::UnknownError : an unknown error occurs
+
+== REQUIREMENTS
+
+* json gem
+
+== INSTALL
+  gem install longurl
+
+== LICENSE
+
+(The MIT License)
+
+Copyright (c) 2009, Fabien Jakimowicz <fabien@jakimowicz.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
