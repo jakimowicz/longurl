@@ -2,7 +2,6 @@ $test_lib_dir = File.join(File.dirname(__FILE__), "..", "lib")
 $:.unshift($test_lib_dir)
 
 require "test/unit"
-require "constants"
 require "longurl/exceptions"
 require "longurl/service"
 
