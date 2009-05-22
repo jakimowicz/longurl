@@ -17,13 +17,9 @@ rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = 'longurl'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+desc "build rdoc using hanna theme"
+task :rdoc do
+  `rm -rf rdoc && rdoc -o rdoc --inline-source --format=html -T hanna README* lib/**/*.rb`
 end
 
 require 'rake/testtask'
