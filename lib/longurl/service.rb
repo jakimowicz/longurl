@@ -85,12 +85,26 @@ module LongURL
     
     def handle_response(response)
       parsed = JSON.parse(response.body)
+      parsed = parsed.first if parsed.is_a?(Array)
       if parsed['long_url']
         parsed['long_url']
       elsif parsed['message'] # Error
-        raise LongURL::UnsupportedService if parsed['messages']['message'] == 'Unsupported service.'
+        raise exception_regarding_message(parsed['message'])
       else
         raise LongURL::UnknownError
+      end
+    end
+    
+    def exception_class_regarding_message(message)
+      case message
+      when 'Unsupported service.'
+        LongURL::UnsupportedService
+      when 'Connection timeout'
+        LongURL::NetworkError
+      when 'Could not expand URL. Please check that you have submitted a valid URL.'
+        LongURL::InvalidURL
+      else
+        LongURL::UnknownError
       end
     end
 
