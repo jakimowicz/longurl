@@ -19,6 +19,8 @@ module LongURL
       end
     rescue Timeout::Error, Errno::ENETUNREACH, Errno::ETIMEDOUT, SocketError
       raise LongURL::NetworkError
+    rescue
+      raise LongURL::UnknownError
     end
   end
 end
