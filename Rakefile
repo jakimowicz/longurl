@@ -19,7 +19,7 @@ end
 
 desc "build rdoc using hanna theme"
 task :rdoc do
-  `rm -rf rdoc && rdoc -o rdoc --inline-source --format=html -T hanna README* lib/**/*.rb`
+  `rm -rf rdoc && rdoc --op=rdoc --title=LongURL --inline-source --format=darkfish LICENSE README* lib/**/*.rb`
 end
 
 require 'rake/testtask'
