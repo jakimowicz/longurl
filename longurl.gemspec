@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{longurl}
-  s.version = "0.1.5"
+  s.version = "0.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Fabien Jakimowicz"]
-  s.date = %q{2009-06-13}
+  s.date = %q{2009-07-20}
   s.default_executable = %q{longurl}
   s.description = %q{LongURL expands short urls (tinyurl, is.gd, ...) to original ones, using on LongURL.org, internal resolution or direct resolution}
   s.email = %q{fabien@jakimowicz.com}
