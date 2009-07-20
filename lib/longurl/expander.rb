@@ -19,7 +19,7 @@ module LongURL
   #   e.expand("http://www.linuxfr.org")                              # => "http://www.linuxfr.org"
   #
   #   # not expandable urls, calling longurl.org only
-  #   e.expand_with_service_only("http://www.linuxfr.org")            # => "http://www.linuxfr.org/pub"
+  #   e.expand("http://www.linuxfr.org", :direct_resolution => true)  # => "http://www.linuxfr.org/pub"
   #
   #   # not expandable urls, direct resolution only
   #   e.direct_resolution("http://www.linuxfr.org")                   # => "http://www.linuxfr.org/pub"
@@ -48,11 +48,12 @@ module LongURL
       @@service = Service.new(:cache => @@cache)
     end
     
-    # Expand given url using LongURL::Service class first and then try a direct_resolution.
-    def expand(url)
+    # Expand given url using LongURL::Service class first and then try a direct_resolution,
+    # unless :direct_resolution is set to false in options hash.
+    def expand(url, options = {})
       @@service.query_supported_service_only url
     rescue UnsupportedService
-      direct_resolution url
+      options[:direct_resolution] == false ? raise(UnsupportedService) : direct_resolution(url)
     end
     
     # Try to directly resolve url using LongURL::Direct to get final redirection.
@@ -66,24 +67,22 @@ module LongURL
       end
     end
     
-    # Expand all url in the given string, if an error occurs while expanding url, then the original url is used
-    def expand_each_in(text)
+    # Expand all url in the given string, if an error occurs while expanding url, then the original url is used.
+    # <tt>options</tt> accepts same options as expand, see expand for more details.
+    def expand_each_in(text, options = {})
       text.gsub(ShortURLMatchRegexp) do |shorturl| 
         begin
-          expand shorturl
-        rescue  LongURL::InvalidURL,
-                LongURL::NetworkError,
-                LongURL::TooManyRedirections,
-                LongURL::UnknownError,
+          expand shorturl, options
+        rescue  InvalidURL,
+                NetworkError,
+                TooManyRedirections,
+                UnknownError,
+                UnsupportedService,
                 JSON::ParserError
           shorturl
         end
       end
-    end
+    end # expand_each_in
     
-    # Expand given url using LongURL::Service only. If given url is not a expandable url, it will still be given to Service.
-    def expand_with_service_only(url)
-      @@service.query url
-    end
-  end
-end
+  end # Expander
+end # LongURL
